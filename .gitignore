@@ -1,0 +1,4 @@
+.kateproject.d/
+store/*
+.htaccess
+.htpasswd
