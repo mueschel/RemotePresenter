@@ -79,10 +79,25 @@ function deletePic(f) {
 
 function pointer(e) {
   var t = document.getElementById("screen");
-//   alert(t.offsetLeft);
-  var x = Math.round((e.pageX - t.offsetLeft)/t.clientWidth*100);
-  var y = Math.round((e.pageY - t.offsetTop)/t.clientHeight*100);  
+  
+  var nat_aspect = t.naturalWidth / t.naturalHeight;
+  var obj_aspect = t.width / t.height;
+  
+  var x;
+  var y;
+  if ( obj_aspect > nat_aspect ) { // we are limited in y
+    var real_width = t.height * nat_aspect;
+    var x_offset   = (t.width - real_width)/2;
+    x = Math.round((e.pageX - t.offsetLeft - x_offset)/real_width*100);
+    y = Math.round((e.pageY - t.offsetTop)/t.height*100);  
+  } else { // we are limited in x
+    var real_height = t.width / nat_aspect;
+    var y_offset   = (t.height - real_height)/2;
+    x = Math.round((e.pageX - t.offsetLeft)/t.width*100);
+    y = Math.round((e.pageY - t.offsetTop - y_offset)/real_height*100);  
+  }
   var i = currentPic.split(",");
+//   alert("x: "+x+" y: "+y+"\nnat_aspect = "+nat_aspect+" obj_aspect = "+obj_aspect);
   getData("showPic.pl?img="+i[0]+"&room="+currentRoom+'&posx='+x+'&posy='+y);
   }
 
@@ -91,11 +106,31 @@ function updatepresentation(t) {
   t = t.trim();
   if(currentPic != t) {
     var s = document.getElementById("screen");
+    
+    
     currentPic = t;
     var i = t.split(",");
     if(s) {
-      x = i[1]*s.clientWidth/100-30 + s.offsetLeft;
-      y = i[2]*s.clientHeight/100-10 + s.offsetTop;
+      var nat_aspect = s.naturalWidth / s.naturalHeight;
+      var obj_aspect = s.width / s.height;
+      
+      
+      if ( obj_aspect > nat_aspect ) { // we are limited in y
+        var real_width = s.height * nat_aspect;
+        var x_offset   = (s.width - real_width)/2;
+//         x = Math.round((e.pageX - t.offsetLeft - x_offset)/real_width*100);
+//         y = Math.round((e.pageY - t.offsetTop)/t.height*100);  
+        x = i[1]*real_width/100-30 + s.offsetLeft + x_offset;
+        y = i[2]*s.height/100-10 + s.offsetTop;
+      } else { // we are limited in x
+        var real_height = s.width / nat_aspect;
+        var y_offset   = (s.height - real_height)/2;
+//         x = Math.round((e.pageX - t.offsetLeft)/t.width*100);
+//         y = Math.round((e.pageY - t.offsetTop - y_offset)/real_height*100);  
+        x = i[1]*s.width/100-30 + s.offsetLeft;
+        y = i[2]*real_height/100-10 + s.offsetTop + y_offset;
+      }
+      
       }
     else { x=0;y=0; }  
     document.getElementById("content").innerHTML = '<img id="screen" onClick="pointer(event);" src="store/'+currentRoom+'/'+i[0]+'"><div id="pointer" style="left:'+x+'px;top:'+y+'px;">&nbsp;</div>';
