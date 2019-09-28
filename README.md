@@ -22,7 +22,7 @@ Users Guide
  * "Delete" - delete the selected files from the list above
  * Click anywhere in the image to set a red pointer for everybody to see
  * Images can be changed by using the arrow keys or Page Up/Down
-
+ * Pressing '+' zooms the image locally, scrolling using the mouse wheel is possible
 
 
 Administrators Guide
