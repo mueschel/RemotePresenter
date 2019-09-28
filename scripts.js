@@ -43,6 +43,10 @@ function present(f) {
 function presentNext(d) {
   if(d==40 || d==34) d=1;
   else if(d==38 || d==33) d=-1;
+  else if(d==107 || d==171) {
+    document.getElementById("content").classList.toggle("zoomed");
+    return;
+    }
   else return true;
   current = currentPic.split(',',1);
   for(i=0;i<document.getElementById('filecontainer').children.length;i++){
