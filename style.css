@@ -61,6 +61,7 @@ h1 {
   position:absolute;
   text-align:center;
   padding-right:100px;
+  overflow:scroll !important;
   text-align:center;
   }
 
@@ -74,7 +75,6 @@ h1 {
   max-height:100%;  
   max-width:100%;
   object-fit:contain;
-  overflow-y:scroll !important;
   margin:auto;
   padding:0;
   }
